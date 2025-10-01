@@ -1,17 +1,18 @@
+# src/agents/profiler.py
 from crewai import Agent
 from src.config.llm import get_llm
-from src.utils.tools import build_tools
+from src.utils.tools import scrape_tool, search_tool, read_resume, semantic_search_resume
 
-def create_profiler(resume_path: str):
-    tools = build_tools(resume_path)
+def create_profiler():
     return Agent(
         role="Personal Profiler for Engineers",
-        goal="Build a comprehensive personal & professional profile from resumes, GitHub, and notes.",
-        tools=[tools["scrape"], tools.get("search"), tools["read_resume"]],
+        goal="Do incredible research on job applicants to help them stand out",
+        tools=[scrape_tool, search_tool, read_resume, semantic_search_resume],
         llm=get_llm(),
         verbose=True,
         backstory=(
-            "You synthesize resumes, GitHub contributions, and write-ups "
-            "to produce a strong candidate profile."
+            "Equipped with analytical prowess, you dissect and synthesize "
+            "information from diverse sources to craft comprehensive "
+            "personal and professional profiles."
         )
     )
